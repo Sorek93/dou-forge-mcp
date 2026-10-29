@@ -1,0 +1,18 @@
+# Allowlist build context: never send credentials, private history or state to a builder.
+**
+!Dockerfile
+!pyproject.toml
+!MANIFEST.in
+!README.md
+!src/
+!src/**
+src/**/__pycache__/
+src/**/*.py[cod]
+!tests/
+!tests/**
+!examples/
+!examples/config.json
+!tools/
+!tools/init_docker_preview.py
+!compose.yaml
+!.dockerignore

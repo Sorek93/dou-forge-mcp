@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "execution_enabled": false,
+  "shell_enabled": false,
+  "hosts": {},
+  "actions": {
+    "hostname": {"command": "hostname", "require_approval": true}
+  },
+  "principals": {
+    "local": {"hosts": [], "actions": ["hostname"]}
+  },
+  "http": {
+    "auth_mode": "preview",
+    "issuer_url": "http://127.0.0.1:9384",
+    "resource_url": "http://127.0.0.1:9384/mcp",
+    "preview_principal": "local"
+  }
+}

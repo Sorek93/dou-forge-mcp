@@ -1,0 +1,49 @@
+# Local preview only. A loopback host mapping is not OAuth onboarding.
+services:
+  forge:
+    image: dou-forge-mcp:0.1.0a4-local
+    build:
+      context: .
+      target: runtime
+    init: true
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 96
+    cpus: 1.0
+    mem_limit: 384m
+    restart: "no"
+    ports:
+      - "127.0.0.1:${DOUFORGE_PORT:-9384}:9384"
+    environment:
+      DOUFORGE_PREVIEW_TOKEN_FILE: /run/secrets/preview_token
+    command: ["--config", "/config/config.json", "--state", "/data", "serve",
+              "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "9384", "--container-preview"]
+    volumes:
+      - type: bind
+        source: ./runtime/config.json
+        target: /config/config.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./runtime/ssh
+        target: /home/douforge/.ssh
+        read_only: true
+        bind:
+          create_host_path: false
+      - forge_state:/data
+    secrets: [preview_token]
+    tmpfs:
+      - /tmp:size=16777216,mode=1777,noexec,nosuid,nodev
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+secrets:
+  preview_token:
+    file: ./runtime/preview.token
+volumes:
+  forge_state:

@@ -1,0 +1,10 @@
+# Use with: docker compose -f compose.yaml -f compose.jwt.yaml up --build
+# runtime/config.json MUST contain auth_mode=jwt plus operator-managed HTTPS IdP settings.
+services:
+  forge:
+    command: ["--config", "/config/config.json", "--state", "/data", "serve",
+              "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "9384"]
+    environment:
+      DOUFORGE_PREVIEW_TOKEN_FILE: ""
+    secrets: !reset []
+secrets: !reset {}

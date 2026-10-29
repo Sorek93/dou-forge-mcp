@@ -1,0 +1,5 @@
+include README.md README.zh-CN.md SECURITY.md PROVENANCE.md
+recursive-include examples *.json
+recursive-include tests *.py
+include DOCKER.zh-CN.md OAUTH.zh-CN.md Dockerfile compose.yaml compose.jwt.yaml
+recursive-include tools *.py
